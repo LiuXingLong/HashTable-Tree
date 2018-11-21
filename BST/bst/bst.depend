@@ -1,26 +1,15 @@
 # depslib dependency file v1.0
-1542508025 source:c:\users\hnust_liuxinglong\desktop\数据结构\bst\bst\src\bst.cpp
-	"bst.h"
-
-1542508019 c:\users\hnust_liuxinglong\desktop\数据结构\bst\bst\include\bst.h
-	<string>
-	<iostream>
-
-1542508166 source:c:\users\hnust_liuxinglong\desktop\数据结构\bst\bst\main.cpp
+1542808603 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\main.cpp
+	<time.h>
 	<stdio.h>
 	<iostream>
 	"bst.h"
 
-1542534246 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\main.cpp
-	<stdio.h>
-	<iostream>
-	"bst.h"
-
-1542531784 c:\users\hnust_liuxinglong\desktop\tree\bst\bst\include\bst.h
+1542772537 c:\users\hnust_liuxinglong\desktop\tree\bst\bst\include\bst.h
 	<stdlib.h>
 	<string>
 	<iostream>
 
-1542531336 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\src\bst.cpp
+1542789731 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\src\bst.cpp
 	"bst.h"
 

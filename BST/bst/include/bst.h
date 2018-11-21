@@ -15,7 +15,7 @@ typedef struct BstData
 
 typedef struct BstNode
 {
-    unsigned int hash_key; /// BKDRHash ֵ
+    unsigned int hash_key; /// BKDRHash ох
     BstData *data;
     BstNode *lchild,*rchild;
 } BstNode;

@@ -1,27 +1,27 @@
 /// @brief BKDR Hash Function
-/// @detail ±¾ Ëã·¨ÓÉÓÚÔÚBrian KernighanÓëDennis RitchieµÄ¡¶The C Programming Language¡·Ò»Êé±»Õ¹Ê¾¶øµÃ Ãû£¬ÊÇÒ»ÖÖ¼òµ¥¿ì½İµÄhashËã·¨£¬Ò²ÊÇJavaÄ¿Ç°²ÉÓÃµÄ×Ö·û´®µÄHashËã·¨£¨ÀÛ³ËÒò×ÓÎª31£©¡£
+/// @detail æœ¬ ç®—æ³•ç”±äºåœ¨Brian Kernighanä¸Dennis Ritchieçš„ã€ŠThe C Programming Languageã€‹ä¸€ä¹¦è¢«å±•ç¤ºè€Œå¾— åï¼Œæ˜¯ä¸€ç§ç®€å•å¿«æ·çš„hashç®—æ³•ï¼Œä¹Ÿæ˜¯Javaç›®å‰é‡‡ç”¨çš„å­—ç¬¦ä¸²çš„Hashç®—æ³•ï¼ˆç´¯ä¹˜å› å­ä¸º31ï¼‰ã€‚
 template<class T>
 size_t BKDRHash(const T *str)
 {
     register size_t hash = 0;
     while (size_t ch = (size_t)*str++)
     {
-        hash = hash * 131 + ch;   // Ò²¿ÉÒÔ³ËÒÔ31¡¢131¡¢1313¡¢13131¡¢131313..
-        // ÓĞÈËËµ½«³Ë·¨·Ö½âÎªÎ»ÔËËã¼°¼Ó¼õ·¨¿ÉÒÔÌá¸ßĞ§ÂÊ£¬Èç½«ÉÏÊ½±í´ïÎª£ºhash = hash << 7 + hash << 1 + hash + ch;
-        // µ«ÆäÊµÔÚIntelÆ½Ì¨ÉÏ£¬CPUÄÚ²¿¶Ô¶şÕßµÄ´¦ÀíĞ§ÂÊ¶¼ÊÇ²î²»¶àµÄ£¬
-        // ÎÒ·Ö±ğ½øĞĞÁË100ÒÚ´ÎµÄÉÏÊöÁ½ÖÖÔËËã£¬·¢ÏÖ¶şÕßÊ±¼ä²î¾à»ù±¾Îª0£¨Èç¹ûÊÇDebug°æ£¬·Ö½â³ÉÎ»ÔËËãºóµÄºÄÊ±»¹Òª¸ß1/3£©£»
-        // ÔÚARMÕâÀàRISCÏµÍ³ÉÏÃ»ÓĞ²âÊÔ¹ı£¬ÓÉÓÚARMÄÚ²¿Ê¹ÓÃBooth's AlgorithmÀ´Ä£Äâ32Î»ÕûÊı³Ë·¨ÔËËã£¬ËüµÄĞ§ÂÊÓë³ËÊıÓĞ¹Ø£º
-        // µ±³ËÊı8-31Î»¶¼Îª1»ò0Ê±£¬ĞèÒª1¸öÊ±ÖÓÖÜÆÚ
-        // µ±³ËÊı16-31Î»¶¼Îª1»ò0Ê±£¬ĞèÒª2¸öÊ±ÖÓÖÜÆÚ
-        // µ±³ËÊı24-31Î»¶¼Îª1»ò0Ê±£¬ĞèÒª3¸öÊ±ÖÓÖÜÆÚ
-        // ·ñÔò£¬ĞèÒª4¸öÊ±ÖÓÖÜÆÚ
-        // Òò´Ë£¬ËäÈ»ÎÒÃ»ÓĞÊµ¼Ê²âÊÔ£¬µ«ÊÇÎÒÒÀÈ»ÈÏÎª¶şÕßĞ§ÂÊÉÏ²î±ğ²»´ó
+        hash = hash * 131 + ch;   // ä¹Ÿå¯ä»¥ä¹˜ä»¥31ã€131ã€1313ã€13131ã€131313..
+        // æœ‰äººè¯´å°†ä¹˜æ³•åˆ†è§£ä¸ºä½è¿ç®—åŠåŠ å‡æ³•å¯ä»¥æé«˜æ•ˆç‡ï¼Œå¦‚å°†ä¸Šå¼è¡¨è¾¾ä¸ºï¼šhash = hash << 7 + hash << 1 + hash + ch;
+        // ä½†å…¶å®åœ¨Intelå¹³å°ä¸Šï¼ŒCPUå†…éƒ¨å¯¹äºŒè€…çš„å¤„ç†æ•ˆç‡éƒ½æ˜¯å·®ä¸å¤šçš„ï¼Œ
+        // æˆ‘åˆ†åˆ«è¿›è¡Œäº†100äº¿æ¬¡çš„ä¸Šè¿°ä¸¤ç§è¿ç®—ï¼Œå‘ç°äºŒè€…æ—¶é—´å·®è·åŸºæœ¬ä¸º0ï¼ˆå¦‚æœæ˜¯Debugç‰ˆï¼Œåˆ†è§£æˆä½è¿ç®—åçš„è€—æ—¶è¿˜è¦é«˜1/3ï¼‰ï¼›
+        // åœ¨ARMè¿™ç±»RISCç³»ç»Ÿä¸Šæ²¡æœ‰æµ‹è¯•è¿‡ï¼Œç”±äºARMå†…éƒ¨ä½¿ç”¨Booth's Algorithmæ¥æ¨¡æ‹Ÿ32ä½æ•´æ•°ä¹˜æ³•è¿ç®—ï¼Œå®ƒçš„æ•ˆç‡ä¸ä¹˜æ•°æœ‰å…³ï¼š
+        // å½“ä¹˜æ•°8-31ä½éƒ½ä¸º1æˆ–0æ—¶ï¼Œéœ€è¦1ä¸ªæ—¶é’Ÿå‘¨æœŸ
+        // å½“ä¹˜æ•°16-31ä½éƒ½ä¸º1æˆ–0æ—¶ï¼Œéœ€è¦2ä¸ªæ—¶é’Ÿå‘¨æœŸ
+        // å½“ä¹˜æ•°24-31ä½éƒ½ä¸º1æˆ–0æ—¶ï¼Œéœ€è¦3ä¸ªæ—¶é’Ÿå‘¨æœŸ
+        // å¦åˆ™ï¼Œéœ€è¦4ä¸ªæ—¶é’Ÿå‘¨æœŸ
+        // å› æ­¤ï¼Œè™½ç„¶æˆ‘æ²¡æœ‰å®é™…æµ‹è¯•ï¼Œä½†æ˜¯æˆ‘ä¾ç„¶è®¤ä¸ºäºŒè€…æ•ˆç‡ä¸Šå·®åˆ«ä¸å¤§
     }
     return hash;
 }
 
 /// @brief SDBM Hash Function
-/// @detail ±¾Ëã·¨ÊÇÓÉÓÚÔÚ¿ªÔ´ÏîÄ¿SDBM£¨Ò»ÖÖ¼òµ¥µÄÊı¾İ¿âÒıÇæ£©ÖĞ±»Ó¦ÓÃ¶øµÃÃû£¬ËüÓëBKDRHashË¼ÏëÒ»ÖÂ£¬Ö»ÊÇÖÖ×Ó²»Í¬¶øÒÑ¡£
+/// @detail æœ¬ç®—æ³•æ˜¯ç”±äºåœ¨å¼€æºé¡¹ç›®SDBMï¼ˆä¸€ç§ç®€å•çš„æ•°æ®åº“å¼•æ“ï¼‰ä¸­è¢«åº”ç”¨è€Œå¾—åï¼Œå®ƒä¸BKDRHashæ€æƒ³ä¸€è‡´ï¼Œåªæ˜¯ç§å­ä¸åŒè€Œå·²ã€‚
 template<class T>
 size_t SDBMHash(const T *str)
 {
@@ -35,7 +35,7 @@ size_t SDBMHash(const T *str)
 }
 
 /// @brief RS Hash Function
-/// @detail ÒòRobert SedgwicksÔÚÆä¡¶Algorithms in C¡·Ò»ÊéÖĞÕ¹Ê¾¶øµÃÃû¡£
+/// @detail å› Robert Sedgwicksåœ¨å…¶ã€ŠAlgorithms in Cã€‹ä¸€ä¹¦ä¸­å±•ç¤ºè€Œå¾—åã€‚
 template<class T>
 size_t RSHash(const T *str)
 {
@@ -50,7 +50,7 @@ size_t RSHash(const T *str)
 }
 
 /// @brief AP Hash Function
-/// @detail ÓÉArash Partow·¢Ã÷µÄÒ»ÖÖhashËã·¨¡£
+/// @detail ç”±Arash Partowå‘æ˜çš„ä¸€ç§hashç®—æ³•ã€‚
 template<class T>
 size_t APHash(const T *str)
 {
@@ -71,11 +71,11 @@ size_t APHash(const T *str)
 }
 
 /// @brief JS Hash Function
-/// ÓÉJustin Sobel·¢Ã÷µÄÒ»ÖÖhashËã·¨¡£
+/// ç”±Justin Sobelå‘æ˜çš„ä¸€ç§hashç®—æ³•ã€‚
 template<class T>
 size_t JSHash(const T *str)
 {
-    if(!*str)        // ÕâÊÇÓÉ±¾ÈËÌí¼Ó£¬ÒÔ±£Ö¤¿Õ×Ö·û´®·µ»Ø¹şÏ£Öµ0
+    if(!*str)        // è¿™æ˜¯ç”±æœ¬äººæ·»åŠ ï¼Œä»¥ä¿è¯ç©ºå­—ç¬¦ä¸²è¿”å›å“ˆå¸Œå€¼0
         return 0;
     register size_t hash = 1315423911;
     while (size_t ch = (size_t)*str++)
@@ -86,11 +86,11 @@ size_t JSHash(const T *str)
 }
 
 /// @brief DEK Function
-/// @detail ±¾Ëã·¨ÊÇÓÉÓÚDonald E. KnuthÔÚ¡¶Art Of Computer Programming Volume 3¡·ÖĞÕ¹Ê¾¶øµÃÃû¡£
+/// @detail æœ¬ç®—æ³•æ˜¯ç”±äºDonald E. Knuthåœ¨ã€ŠArt Of Computer Programming Volume 3ã€‹ä¸­å±•ç¤ºè€Œå¾—åã€‚
 template<class T>
 size_t DEKHash(const T* str)
 {
-    if(!*str)        // ÕâÊÇÓÉ±¾ÈËÌí¼Ó£¬ÒÔ±£Ö¤¿Õ×Ö·û´®·µ»Ø¹şÏ£Öµ0
+    if(!*str)        // è¿™æ˜¯ç”±æœ¬äººæ·»åŠ ï¼Œä»¥ä¿è¯ç©ºå­—ç¬¦ä¸²è¿”å›å“ˆå¸Œå€¼0
         return 0;
     register size_t hash = 1315423911;
     while (size_t ch = (size_t)*str++)
@@ -101,11 +101,11 @@ size_t DEKHash(const T* str)
 }
 
 /// @brief FNV Hash Function
-/// @detail Unix systemÏµÍ³ÖĞÊ¹ÓÃµÄÒ»ÖÖÖøÃûhashËã·¨£¬ºóÀ´Î¢ÈíÒ²ÔÚÆähash_mapÖĞÊµÏÖ¡£
+/// @detail Unix systemç³»ç»Ÿä¸­ä½¿ç”¨çš„ä¸€ç§è‘—åhashç®—æ³•ï¼Œåæ¥å¾®è½¯ä¹Ÿåœ¨å…¶hash_mapä¸­å®ç°ã€‚
 template<class T>
 size_t FNVHash(const T* str)
 {
-    if(!*str)   // ÕâÊÇÓÉ±¾ÈËÌí¼Ó£¬ÒÔ±£Ö¤¿Õ×Ö·û´®·µ»Ø¹şÏ£Öµ0
+    if(!*str)   // è¿™æ˜¯ç”±æœ¬äººæ·»åŠ ï¼Œä»¥ä¿è¯ç©ºå­—ç¬¦ä¸²è¿”å›å“ˆå¸Œå€¼0
         return 0;
     register size_t hash = 2166136261;
     while (size_t ch = (size_t)*str++)
@@ -117,11 +117,11 @@ size_t FNVHash(const T* str)
 }
 
 /// @brief DJB Hash Function
-/// @detail ÓÉDaniel J. Bernstein½ÌÊÚ·¢Ã÷µÄÒ»ÖÖhashËã·¨¡£
+/// @detail ç”±Daniel J. Bernsteinæ•™æˆå‘æ˜çš„ä¸€ç§hashç®—æ³•ã€‚
 template<class T>
 size_t DJBHash(const T *str)
 {
-    if(!*str)   // ÕâÊÇÓÉ±¾ÈËÌí¼Ó£¬ÒÔ±£Ö¤¿Õ×Ö·û´®·µ»Ø¹şÏ£Öµ0
+    if(!*str)   // è¿™æ˜¯ç”±æœ¬äººæ·»åŠ ï¼Œä»¥ä¿è¯ç©ºå­—ç¬¦ä¸²è¿”å›å“ˆå¸Œå€¼0
         return 0;
     register size_t hash = 5381;
     while (size_t ch = (size_t)*str++)
@@ -132,11 +132,11 @@ size_t DJBHash(const T *str)
 }
 
 /// @brief DJB Hash Function 2
-/// @detail ÓÉDaniel J. Bernstein ·¢Ã÷µÄÁíÒ»ÖÖhashËã·¨¡£
+/// @detail ç”±Daniel J. Bernstein å‘æ˜çš„å¦ä¸€ç§hashç®—æ³•ã€‚
 template<class T>
 size_t DJB2Hash(const T *str)
 {
-    if(!*str)   // ÕâÊÇÓÉ±¾ÈËÌí¼Ó£¬ÒÔ±£Ö¤¿Õ×Ö·û´®·µ»Ø¹şÏ£Öµ0
+    if(!*str)   // è¿™æ˜¯ç”±æœ¬äººæ·»åŠ ï¼Œä»¥ä¿è¯ç©ºå­—ç¬¦ä¸²è¿”å›å“ˆå¸Œå€¼0
         return 0;
     register size_t hash = 5381;
     while (size_t ch = (size_t)*str++)
@@ -147,7 +147,7 @@ size_t DJB2Hash(const T *str)
 }
 
 /// @brief PJW Hash Function
-/// @detail ±¾Ëã·¨ÊÇ»ùÓÚAT&T±´¶ûÊµÑéÊÒµÄPeter J. WeinbergerµÄÂÛÎÄ¶ø·¢Ã÷µÄÒ»ÖÖhashËã·¨¡£
+/// @detail æœ¬ç®—æ³•æ˜¯åŸºäºAT&Tè´å°”å®éªŒå®¤çš„Peter J. Weinbergerçš„è®ºæ–‡è€Œå‘æ˜çš„ä¸€ç§hashç®—æ³•ã€‚
 template<class T>
 size_t PJWHash(const T *str)
 {
@@ -170,7 +170,7 @@ size_t PJWHash(const T *str)
 }
 
 /// @brief ELF Hash Function
-/// @detail ÓÉÓÚÔÚUnixµÄExtended Library Function±»¸½´ø¶øµÃÃûµÄÒ»ÖÖhashËã·¨£¬ËüÆäÊµ¾ÍÊÇPJW HashµÄ±äĞÎ¡£
+/// @detail ç”±äºåœ¨Unixçš„Extended Library Functionè¢«é™„å¸¦è€Œå¾—åçš„ä¸€ç§hashç®—æ³•ï¼Œå®ƒå…¶å®å°±æ˜¯PJW Hashçš„å˜å½¢ã€‚
 template<class T>
 size_t ELFHash(const T *str)
 {
