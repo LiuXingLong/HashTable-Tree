@@ -1,5 +1,6 @@
 #include <time.h>
 #include <stdio.h>
+#include <fstream>
 #include <iostream>
 #include "bst.h"
 #pragma comment(linker, "/STACK:102400000,102400000")
@@ -8,7 +9,8 @@ int main()
 {
     bst BstMap;
     int number;
-    string clear_cmd,cmd,key,value,filename;
+    ifstream infile;
+    string clear_cmd,cmd,key,value,filename,test;
     BstNode *bst_p = nullptr;
     clock_t s_time, e_time;
     s_time = clock();
@@ -17,15 +19,43 @@ int main()
     for(int i = 1; i <= number ; i++){
         filename = "data\\set_" + std::to_string(i) + ".in";
         cout << filename << endl;
-        freopen(filename.c_str(),"r",stdin);
-        while(cin >> cmd >> key >> value){
+        infile.open(filename.c_str());
+        /*
+        infile.seekg(0, std::ios::end);
+        int length = infile.tellg();
+        infile.seekg(0, std::ios::beg);
+        char *buffer = new char[length];
+        infile.read(buffer, length);
+        buffer[length] = '\0';
+        int j = 0;
+        while(*buffer){
+            if(*buffer == ' ' || *buffer == '\n' ){
+                buffer++; j++;
+                if(j == 1){
+                    cmd = clear_cmd;
+                }else if(j == 2){
+                    key = clear_cmd;
+                }else{
+                    j = 0;
+                    value = clear_cmd;
+                    BstMap.bst_set(key,value,BstMap.BKDRHash(key),bst_p);
+                }
+                clear_cmd = "";
+            }
+            clear_cmd += *buffer;
+            buffer++;
+        }
+        value = clear_cmd;
+        BstMap.bst_set(key,value,BstMap.BKDRHash(key),bst_p);
+        delete buffer;
+        */
+        while( !infile.eof() ){
+            infile >> cmd; infile >> key; infile >> value;
             BstMap.bst_set(key,value,BstMap.BKDRHash(key),bst_p);
         }
+        infile.close();
         e_time = clock();
         cout<<  "Data loading Time:" << (double)(e_time-s_time)/CLOCKS_PER_SEC << "s" << endl;
-        fclose(stdin);
-        freopen("CON","r",stdin);
-        cin.clear();
     }
     e_time = clock();
     cout << "Data loading Success" << endl;

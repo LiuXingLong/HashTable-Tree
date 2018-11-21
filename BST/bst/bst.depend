@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1542808603 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\main.cpp
+1542818771 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\main.cpp
 	<time.h>
 	<stdio.h>
+	<fstream>
 	<iostream>
 	"bst.h"
 
