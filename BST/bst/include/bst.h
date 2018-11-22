@@ -5,7 +5,6 @@
 #include <iostream>
 
 using namespace std;
-
 typedef struct BstData
 {
     string key;

@@ -10,29 +10,37 @@ int main()
     bst BstMap;
     int number;
     ifstream infile;
+    ofstream outfile;
     string clear_cmd,cmd,key,value,filename;
     BstNode *bst_p = nullptr;
     clock_t s_time, e_time;
     s_time = clock();
-    cout << "Input Data loading number : 1 to 10" << endl;
+    cout << "Input Data loading number : 1 to 10 ( input 0 not loading data )" << endl;
     cin >> number;
     for(int i = 1; i <= number ; i++){
         filename = "data\\set_" + std::to_string(i) + ".in";
         cout << filename << endl;
-        infile.open(filename.c_str());
+        infile.open(filename.c_str(),ios::in);
         while( !infile.eof() ){
-            infile >> cmd; infile >> key; infile >> value;
+            infile >> key;infile >> value;
             BstMap.bst_set(key,value,BstMap.BKDRHash(key),bst_p);
         }
         infile.close();
         e_time = clock();
-        cout<<  "Data loading Time:" << (double)(e_time-s_time)/CLOCKS_PER_SEC << "s" << endl;
+        cout<< "Data loading Time:" << (double)(e_time-s_time)/CLOCKS_PER_SEC << "s" << endl;
     }
+    /// 加载更新数据
+    infile.open("data\\set_update.in",ios::in);
+    while( !infile.eof() ){
+        infile >> key;infile >> value;
+        BstMap.bst_set(key,value,BstMap.BKDRHash(key),bst_p);
+    }
+    infile.close();
     e_time = clock();
     cout << "Data loading Success" << endl;
-    cout<<  "Data loading Time:" << (double)(e_time-s_time)/CLOCKS_PER_SEC << "s" << endl;
-    cout<<  "sample_get:" << "get"<< " " << "key" <<endl;
-    cout<<  "sample_set:" << "set"<< " " << "key" << " " << "value" <<endl;
+    cout << "Data loading Time:" << (double)(e_time-s_time)/CLOCKS_PER_SEC << "s" << endl;
+    cout << "sample_get:" << "get"<< " " << "key" << endl;
+    cout << "sample_set:" << "set"<< " " << "key" << " " << "value" << endl;
 
     while(cin >> cmd){
         /// 读取数据
@@ -56,14 +64,23 @@ int main()
         };
         /// 业务处理
         if(cmd == "get"){
+            s_time = clock();
             cout << BstMap.bst_get(key,BstMap.BKDRHash(key),bst_p) << endl;
+            e_time = clock();
+            cout << "Time:" << (double)(e_time-s_time)/CLOCKS_PER_SEC << "s" << endl;
         }else if(cmd == "del"){
             cout << cmd << " " << key << " Hash_Key: "<< BstMap.BKDRHash(key) << endl;
         }else{
             bool set_status;
+            s_time = clock();
             set_status = BstMap.bst_set(key,value,BstMap.BKDRHash(key),bst_p);
             cout << set_status << endl;
+            outfile.open("data\\set_update.in",ios::app);
+            outfile << key << " " << value <<endl;
+            e_time = clock();
+            cout << "Time:" << (double)(e_time-s_time)/CLOCKS_PER_SEC << "s" << endl;
         }
     }
+    outfile.close();
     return 0;
 }
