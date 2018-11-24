@@ -16,16 +16,18 @@ typedef struct BstNode
 {
     unsigned int hash_key; /// BKDRHash ох
     BstData *data;
-    BstNode *lchild,*rchild;
+    BstNode *parent,*lchild,*rchild;
 } BstNode;
 
 class bst
 {
     public:
         string bst_get(string key ,unsigned int hash_key, BstNode *node);
-        bool bst_set(string key, string value,unsigned int hash_key, BstNode *&node);
-        bool bst_del(string key, unsigned int hash_key, BstNode *node);
+        bool bst_set(string key, string value,unsigned int hash_key, BstNode *&node, BstNode *parent);
+        bool bst_del(string key, unsigned int hash_key, BstNode *&node);
         unsigned int BKDRHash(string key);
+    private:
+        BstNode * get_min_node(BstNode *node);
 };
 
 #endif // BST_H
