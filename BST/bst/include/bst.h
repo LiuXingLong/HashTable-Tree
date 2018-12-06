@@ -27,7 +27,7 @@ class bst
         bool bst_del(string key, unsigned int hash_key, BstNode *&node);
         unsigned int BKDRHash(string key);
     private:
-        BstNode * get_min_node(BstNode *node);
+        BstNode * get_min_node(BstNode *&node);
 };
 
 #endif // BST_H
