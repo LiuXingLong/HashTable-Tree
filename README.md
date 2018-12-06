@@ -1,7 +1,7 @@
 # BST
 
-### Hash Map (���� Binary Search Tree ʵ��)
+### Hash Map (基于 Binary Search Tree 实现)
 
-��ϣ�� + ���������� ʵ�� key => value ���ݴ洢���޸ġ�
+哈希表 + 二叉搜索树 实现 key => value 数据存储与修改。
 
-�ص㣺ǧ�� key => value ���ݣ����롢��ѯ���޸� ���뼶ʵ�֡�(�ݲ�֧��ɾ������)
+特点：千万级 key => value 数据，插入、查询、修改、删除 毫秒级实现。
