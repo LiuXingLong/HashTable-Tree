@@ -21,14 +21,18 @@ int main()
         filename = "data\\set_" + std::to_string(i) + ".in";
         cout << filename << endl;
         infile.open(filename.c_str(),ios::in);
-        while( !infile.eof() ){
-            infile >> key;
-            infile >> value;
-            BstMap.bst_set(key,value,BstMap.BKDRHash(key),bst_p,parent);
+        if(infile){
+            while( !infile.eof() ){
+                infile >> key;
+                infile >> value;
+                BstMap.bst_set(key,value,BstMap.BKDRHash(key),bst_p,parent);
+            }
+            infile.close();
+            e_time = clock();
+            cout<< "Data loading Time:" << (double)(e_time-s_time)/CLOCKS_PER_SEC << "s" << endl;
+        }else{
+            cout<< "Open Data: " + filename + " Error" << endl;
         }
-        infile.close();
-        e_time = clock();
-        cout<< "Data loading Time:" << (double)(e_time-s_time)/CLOCKS_PER_SEC << "s" << endl;
     }
     /// 加载更新数据
     infile.open("data\\update.in",ios::in);

@@ -99,24 +99,37 @@ bool bst::bst_del(string key, unsigned int hash_key, BstNode *&bst_p)
                 BstNode *bst_h;
                 bst_h = bst_p;
                 bst_p = this->get_min_node(bst_p->rchild);
+                /// 处理删除节点，右子树中最小节点的孩子
                 if(bst_p->rchild != nullptr){
-                    bst_p->parent->lchild = bst_p->rchild;
+                    if(bst_p->parent->hash_key > bst_p->hash_key){
+                        bst_p->parent->lchild = bst_p->rchild;
+                    }else if(bst_p->parent->hash_key < bst_p->hash_key){
+                        bst_p->parent->rchild = bst_p->rchild;
+                    }
                     bst_p->rchild->parent = bst_p->parent;
                 }else{
-                    bst_p->parent->lchild = nullptr;
+                    if(bst_p->parent->hash_key > bst_p->hash_key){
+                        bst_p->parent->lchild = nullptr;
+                    }else if(bst_p->parent->hash_key < bst_p->hash_key){
+                        bst_p->parent->rchild = nullptr;
+                    }
                 }
+                /// 处理删除节点，左右孩子
                 bst_p->lchild = bst_h->lchild;
                 bst_h->lchild->parent = bst_p;
                 bst_p->rchild = bst_h->rchild;
-                bst_h->rchild->parent = bst_p;
+                if(bst_h->rchild != nullptr){
+                    bst_h->rchild->parent = bst_p;
+                }
+                /// 处理删除节点，父亲节点
                 if(bst_h->parent == nullptr){
                     bst_p->parent = nullptr;
                 }else if(bst_h->parent->hash_key > bst_h->hash_key){
                     bst_h->parent->lchild = bst_p;
-                    bst_p->parent = bst_h->parent->lchild;
+                    bst_p->parent = bst_h->parent;
                 }else if(bst_h->parent->hash_key < bst_h->hash_key){
                     bst_h->parent->rchild = bst_p;
-                    bst_p->parent = bst_h->parent->rchild;
+                    bst_p->parent = bst_h->parent;
                 }
                 delete bst_h;
                 bst_h = nullptr;
