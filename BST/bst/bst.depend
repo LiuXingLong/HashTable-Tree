@@ -1,15 +1,16 @@
 # depslib dependency file v1.0
-1542808603 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\main.cpp
+1544098639 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\main.cpp
 	<time.h>
 	<stdio.h>
+	<fstream>
 	<iostream>
 	"bst.h"
 
-1542772537 c:\users\hnust_liuxinglong\desktop\tree\bst\bst\include\bst.h
+1544077413 c:\users\hnust_liuxinglong\desktop\tree\bst\bst\include\bst.h
 	<stdlib.h>
 	<string>
 	<iostream>
 
-1542789731 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\src\bst.cpp
+1544098605 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\src\bst.cpp
 	"bst.h"
 
