@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1544105912 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\main.cpp
+1544106431 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\main.cpp
 	<time.h>
 	<stdio.h>
 	<fstream>
@@ -11,6 +11,6 @@
 	<string>
 	<iostream>
 
-1544104271 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\src\bst.cpp
+1544112403 source:c:\users\hnust_liuxinglong\desktop\tree\bst\bst\src\bst.cpp
 	"bst.h"
 
