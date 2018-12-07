@@ -11,14 +11,6 @@ unsigned int bst::BKDRHash(string key)
     }
     return (hash & 0x7FFFFFFF);
 }
-BstNode * bst::get_min_node(BstNode *&bst_p)
-{
-    if(bst_p->lchild == nullptr){
-        return bst_p;
-    }else{
-        return this->get_min_node(bst_p->lchild);
-    }
-}
 
 string bst::bst_get(string key, unsigned int hash_key,BstNode *bst_p)
 {
@@ -35,7 +27,12 @@ string bst::bst_get(string key, unsigned int hash_key,BstNode *bst_p)
             bst_data = bst_data->next;
         }
         if( key == bst_data->key ){
-            return bst_data->value;
+            /// return bst_data->value;
+            if(bst_p->parent != nullptr){
+                return bst_data->value + "|" + bst_p->parent->data->value;
+            }else{
+                return bst_data->value + "|root";
+            }
         }else{
             return "null";
         }
@@ -98,7 +95,10 @@ bool bst::bst_del(string key, unsigned int hash_key, BstNode *&bst_p)
                 /// 删除含两个子节点的  父节点
                 BstNode *bst_h;
                 bst_h = bst_p;
-                bst_p = this->get_min_node(bst_p->rchild);
+                bst_p = bst_p->rchild;
+                while(bst_p->lchild != nullptr){
+                    bst_p = bst_p->lchild;
+                }
                 /// 处理删除节点，右子树中最小节点的孩子
                 if(bst_p->rchild != nullptr){
                     if(bst_p->parent->hash_key > bst_p->hash_key){
