@@ -27,12 +27,13 @@ string bst::bst_get(string key, unsigned int hash_key,BstNode *bst_p)
             bst_data = bst_data->next;
         }
         if( key == bst_data->key ){
-            /// return bst_data->value;
+            return bst_data->value;
+            /*
             if(bst_p->parent != nullptr){
                 return bst_data->value + "|" + bst_p->parent->data->value;
             }else{
                 return bst_data->value + "|root";
-            }
+            }*/
         }else{
             return "null";
         }
