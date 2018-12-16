@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1514140574 source:c:\users\hnust_liuxinglong\desktop\tree\red_black_tree\rbt\main.cpp
+	<iostream>
+
+1544954876 source:c:\users\hnust_liuxinglong\desktop\tree\red_black_tree\rbt\src\rbt.cpp
+	"rbt.h"
+
+1544954866 c:\users\hnust_liuxinglong\desktop\tree\red_black_tree\rbt\include\rbt.h
+	<stdlib.h>
+	<string>
+	<iostream>
+
