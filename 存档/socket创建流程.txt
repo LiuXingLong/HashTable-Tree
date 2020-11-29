@@ -1,0 +1,47 @@
+【创建socket流程】
+1、创建socket 
+   设置socket为非阻塞的 ngx_nonblocking 
+2、绑定socket 
+   复用地址和端口号
+   int on = 1;
+   setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, (char*)&on, sizeof(on));
+   setsockopt(listenfd, SOL_SOCKET, SO_REUSEPORT, (char*)&on, sizeof(on));
+3、监听socket
+   加入epoll_wait
+4、建立连接
+   加入epoll_wait
+5、读写数据
+6、关闭连接
+
+
+【nginx子进程惊群】
+ngx_trylock_accept_mutex
+ngx_accept_disabled = ngx_cycle->connection_n / 8 - ngx_cycle->free_connection_n;
+
+
+【多端口监听】：
+socket_fd1  = socket();
+bind(socket_fd1);
+listen(socket_fd1);
+
+socket_fd2  = socket();
+bind(socket_fd2);
+listen(socket_fd2);
+
+socket_fd3  = socket();
+bind(socket_fd3);
+listen(socket_fd3);
+
+socket_fd4  = socket();
+bind(socket_fd4);
+listen(socket_fd4);
+
+epoll_create(0);
+epoll_ctl(socket_fd1);
+epoll_ctl(socket_fd2);
+epoll_ctl(socket_fd3);
+epoll_ctl(socket_fd4);
+
+
+
+
