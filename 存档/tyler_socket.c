@@ -143,7 +143,7 @@ int main()
 	struct epoll_event event;
 	struct epoll_event *events;
 	int listenfds[MAX_PORT] = {0};
-	int i,j,listenfd,share_lock,epoll_fd,epoll_fds[MAX_PROCESS];
+	int i,listenfd,share_lock,epoll_fd,epoll_fds[MAX_PROCESS];
 
 	// 批量创建socket
 	for(i = 0; i < MAX_PORT; i++){
@@ -158,8 +158,8 @@ int main()
 	}
 
 	// 添加listenfds
-	for(j = 0; j < MAX_PORT; j++){
-		event.data.fd = listenfds[j];
+	for(i = 0; i < MAX_PORT; i++){
+		event.data.fd = listenfds[i];
   		event.events  = EPOLLIN | EPOLLET;  //读入,边缘触发方式
 	}
 
@@ -182,6 +182,9 @@ int main()
 			pid = fork();
 		}
 		if(pid == 0) {
+			int index = share_data->work_n++;
+			int n, j, accept_disabled;
+			// 创建epoll
 			epoll_fd = epoll_create(MAX_EPOLLSIZE);
 			if (epoll_fds[i] == -1) {
 				perror( "epoll_create" );
@@ -195,15 +198,13 @@ int main()
 					abort();
 				}
 			}
-			int index = share_data->work_n++;
-			int n, k, is_full, is_accept, accept_disabled;
 			share_data->pid[index] = getpid();
 			events = calloc(MAX_EPOLLSIZE, sizeof event);
 			printf("子进程pid=%d,进程下标:%d\n", share_data->pid[index],index);
 			while(1){
 				accept_disabled = 0;
 				// 当前子进程无连接数可用
-		        if(share_data->work_free_con[index] <= 0){
+		        if(share_data->work_free_con[index] < MAX_EPOLLSIZE){
 		            //是否有办法处理，读写事件
 		            accept_disabled = 1;
 		        }
@@ -232,15 +233,6 @@ int main()
 					int listenfd = checkIsListenfd(events[j].data.fd,listenfds);
 					if(listenfd){
 						while(1){
-							if(share_data->work_free_con[index] <= 0){
-								is_full = 1;
-								printf("--------连接数已满--------\n");
-								break;
-							}
-							if(share_data->lock_user != index){
-								printf("--------未获取到锁--------\n");
-								break;
-							}
 							struct sockaddr_in client_addr;
 							memset(&client_addr, 0, sizeof(struct sockaddr_in));
 							socklen_t client_len = sizeof(client_addr);
@@ -316,10 +308,7 @@ int main()
 			}
 		}
 		//printf("当前进程数:%d,当前建立总连接数:connection_n=%d,锁状态:lock=%d,获取锁进程下标:lock_user=%d,获取锁进程:pid=%d\n",share_data->work_n,share_data->connection_n,share_data->lock,share_data->lock_user,share_data->pid[share_data->lock_user]);
-		sleep(1);
+		usleep(1000);
 	}
 	return 0;
 }
-
-
-

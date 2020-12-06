@@ -52,7 +52,7 @@ int main(int argc, char **argv){
 			//getchar();
 			printf("connections: %d, fd: %d\n", connections, sock);
 		}
-		usleep(100 * 1000);
+		usleep(1 * 1000);
 
 		bufsize = 5000;
 		setsockopt(sock, SOL_SOCKET, SO_SNDBUF, &bufsize, sizeof(bufsize));
