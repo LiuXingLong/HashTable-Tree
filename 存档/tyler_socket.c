@@ -76,8 +76,13 @@ static int setNonblockingSocket (int sfd){
 // 设置重复使用地址和端口closesocket后不经历TIME_WAIT的过程
 static int setReUseAddr(int fd){
 	int reuse = 1;
+	//int time_wait = 0;
     setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (char*)&reuse, sizeof(reuse));
     setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, (char*)&reuse, sizeof(reuse));
+    //setsockopt(fd, SOL_SOCKET, SO_DONTLINGER,(char*)&time_wait,sizeof(time_wait));
+    //int nNetTimeout=1000;
+    //setsockopt(fd, SOL_S0CKET, SO_SNDTIMEO,  (char*)&reuse, sizeof(reuse));
+    //setsockopt(fd, SOL_S0CKET, SO_RCVTIMEO,  (char*)&reuse, sizeof(reuse));
 	return 0;
 }
 
@@ -138,7 +143,7 @@ int main()
 	struct epoll_event event;
 	struct epoll_event *events;
 	int listenfds[MAX_PORT] = {0};
-	int i,listenfd,epoll_fd,share_lock;
+	int i,j,listenfd,share_lock,epoll_fd,epoll_fds[MAX_PROCESS];
 
 	// 批量创建socket
 	for(i = 0; i < MAX_PORT; i++){
@@ -152,19 +157,10 @@ int main()
 		listenfds[i] = listenfd;
 	}
 
-	// 创建epoll
-	epoll_fd = epoll_create(MAX_EPOLLSIZE);
-	if (epoll_fd == -1) {
-		perror( "epoll_create" );
-		abort();
-	}
-	for(i = 0; i < MAX_PORT; i++){
-		event.data.fd = listenfds[i];
+	// 添加listenfds
+	for(j = 0; j < MAX_PORT; j++){
+		event.data.fd = listenfds[j];
   		event.events  = EPOLLIN | EPOLLET;  //读入,边缘触发方式
-		if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, listenfds[i], &event) == -1) {
-			perror( "epoll_ctl" );
-			abort();
-		}
 	}
 
 	// 进程共享内存,原子锁
@@ -186,8 +182,21 @@ int main()
 			pid = fork();
 		}
 		if(pid == 0) {
+			epoll_fd = epoll_create(MAX_EPOLLSIZE);
+			if (epoll_fds[i] == -1) {
+				perror( "epoll_create" );
+				abort();
+			}
+			for(j = 0; j < MAX_PORT; j++){
+				event.data.fd = listenfds[j];
+		  		event.events  = EPOLLIN | EPOLLET;  //读入,边缘触发方式
+				if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, listenfds[j], &event) == -1) {
+					perror( "epoll_ctl" );
+					abort();
+				}
+			}
 			int index = share_data->work_n++;
-			int n, j, k, is_full, is_accept, accept_disabled;
+			int n, k, is_full, is_accept, accept_disabled;
 			share_data->pid[index] = getpid();
 			events = calloc(MAX_EPOLLSIZE, sizeof event);
 			printf("子进程pid=%d,进程下标:%d\n", share_data->pid[index],index);
@@ -200,12 +209,14 @@ int main()
 		        }
 		        // 获取到锁修改获取锁用户
 		        if(accept_disabled == 0 && shmtx_trylock(&share_data->lock)){
+		        	// 处理连接
 		          	share_data->lock_user = index;
 	        	}else{
 	        		continue;
 	        	}
-	        	printf("--------进入进程pid=%d--------\n",getpid());
-    			n = epoll_wait(epoll_fd, events, MAX_EPOLLSIZE, -1);
+	        	// printf("--------进入进程pid=%d--------\n",getpid());
+	        	//n = epoll_wait(epoll_fds[index], events, MAX_EPOLLSIZE, -1);
+	        	n = epoll_wait(epoll_fd, events, MAX_EPOLLSIZE, 1); //设置过期时间1豪秒很重要
     			for (j = 0; j < n; j++) {
     				printf("--------进入epoll_wait进程pid=%d--------\n",getpid());
     				// 处理异常事件
@@ -250,7 +261,7 @@ int main()
 							event.events = EPOLLIN | EPOLLET;
 							event.data.fd = clientfd;
 							if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, clientfd, &event) == -1) {
-								perror( "epoll_ctl" );
+								perror("epoll_ctl");
 								abort();
 							}
 							share_data->work_free_con[index]--;
